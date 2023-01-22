@@ -1,1 +1,27 @@
+#include <AsyncDelay.h>
+#define pin1 13
+#define pin2 3
+AsyncDelay delay1;
+AsyncDelay delay2;
 
+void setup() {
+  Serial.begin(115200);
+  pinMode(pin1, OUTPUT);
+  pinMode(pin2, OUTPUT);
+  delay1.start(1000, AsyncDelay::MILLIS);
+  delay2.start(5000, AsyncDelay::MILLIS);
+}
+
+void loop() {
+  if (delay1.isExpired()) {
+    digitalWrite(pin1, !digitalRead(pin1));
+    Serial.println("pin13status " + String(digitalRead(pin1)));
+    delay1.repeat();
+  }
+
+  if (delay2.isExpired()) {
+    digitalWrite(pin2, !digitalRead(pin2));
+    Serial.println("            pin3status " + String(digitalRead(pin2)));
+    delay2.repeat();
+  }
+}
